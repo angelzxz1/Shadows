@@ -26,11 +26,13 @@ const Range = ({ value, setValue, min = "", max = "" }: RangeProps) => {
 
 interface BoxShadowProps {
 	inset?: boolean;
+	inOut?: boolean;
 	gridArea?: string;
 }
 
 const BoxShadow = ({
 	inset = false,
+	inOut = false,
 	gridArea,
 }: BoxShadowProps): JSX.Element => {
 	const [offsetX, setOffsetX] = useState("0");
@@ -40,13 +42,21 @@ const BoxShadow = ({
 	const [text, setText] = useState(
 		`${
 			inset ? "inset" : ""
-		} ${offsetX}px ${offsetY}px ${blur}px ${spread}px black`
+		} ${offsetX}px ${offsetY}px ${blur}px ${spread}px black ${
+			inOut
+				? `, ${offsetX}px ${offsetY}px ${blur}px ${spread}px black`
+				: ""
+		}`
 	);
 	useEffect(() => {
 		setText(
 			`${
 				inset ? "inset" : ""
-			} ${offsetX}px ${offsetY}px ${blur}px ${spread}px black`
+			} ${offsetX}px ${offsetY}px ${blur}px ${spread}px black ${
+				inOut
+					? `, ${offsetX}px ${offsetY}px ${blur}px ${spread}px black`
+					: ""
+			}`
 		);
 	}, [offsetX, offsetY, blur, spread]);
 	return (
@@ -145,7 +155,7 @@ const Page = () => {
 				<BoxShadow gridArea="right" inset />
 			</Section>
 			<Section>
-				<BoxShadow />
+				<BoxShadow inset inOut />
 			</Section>
 		</>
 	);
